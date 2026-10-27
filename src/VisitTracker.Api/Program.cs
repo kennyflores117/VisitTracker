@@ -1,6 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using VisitTracker.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<VisitTrackerDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("VisitTracker")));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
