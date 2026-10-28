@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VisitTracker.Api.Data;
+using VisitTracker.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<VisitTrackerDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("VisitTracker")));
+
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<IVisitService, VisitService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
