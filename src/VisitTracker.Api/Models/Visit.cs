@@ -9,7 +9,7 @@ public class Visit
 
     public required string CaregiverName { get; set; }
 
-    public DateTimeOffset ScheduledStart { get; set; }
+    public required DateTimeOffset ScheduledStart { get; set; }
 
     // Null until the caregiver clocks in / out.
     public DateTimeOffset? ClockIn { get; set; }

@@ -14,6 +14,13 @@ public class VisitService(VisitTrackerDbContext db, TimeProvider timeProvider) :
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Visit?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await db.Visits
+            .AsNoTracking()
+            .FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+    }
+
     public async Task<Visit> AddAsync(Visit visit, CancellationToken cancellationToken = default)
     {
         db.Visits.Add(visit);

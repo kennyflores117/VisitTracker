@@ -6,6 +6,8 @@ public interface IVisitService
 {
     Task<IReadOnlyList<Visit>> GetAllAsync(CancellationToken cancellationToken = default);
 
+    Task<Visit?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
     Task<Visit> AddAsync(Visit visit, CancellationToken cancellationToken = default);
 
     // Visits whose scheduled start has passed without a clock-in.

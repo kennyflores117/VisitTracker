@@ -1,6 +1,30 @@
 @VisitTracker.Api_HostAddress = http://localhost:5212
 
-GET {{VisitTracker.Api_HostAddress}}/weatherforecast/
+### List all visits
+GET {{VisitTracker.Api_HostAddress}}/api/visits
+Accept: application/json
+
+### Add a visit
+POST {{VisitTracker.Api_HostAddress}}/api/visits
+Content-Type: application/json
+
+{
+  "clientName": "Ana Lopez",
+  "caregiverName": "Bob Smith",
+  "scheduledStart": "2026-10-28T09:00:00-05:00"
+}
+
+### Add an invalid visit (expect 400)
+POST {{VisitTracker.Api_HostAddress}}/api/visits
+Content-Type: application/json
+
+{
+  "clientName": "",
+  "caregiverName": "Bob Smith"
+}
+
+### Visits missing a clock-in
+GET {{VisitTracker.Api_HostAddress}}/api/visits/missing-clock-in
 Accept: application/json
 
 ###
