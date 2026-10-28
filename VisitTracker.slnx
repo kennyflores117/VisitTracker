@@ -2,4 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/VisitTracker.Api/VisitTracker.Api.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VisitTracker.Tests/VisitTracker.Tests.csproj" />
+  </Folder>
 </Solution>
