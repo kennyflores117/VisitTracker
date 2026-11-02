@@ -1,0 +1,32 @@
+<h2>Visits ({{ visits().length }})</h2>
+
+<ul class="visits">
+  @for (visit of visits(); track visit.id) {
+    <li>
+      <button
+        type="button"
+        class="visit"
+        [class.selected]="visit.id === selectedId()"
+        [attr.aria-expanded]="visit.id === selectedId()"
+        (click)="select(visit.id)"
+      >
+        <strong>{{ visit.clientName }}</strong>
+        <span>{{ visit.scheduledStart | date: 'MMM d, h:mm a' }}</span>
+        <span class="status" [class.missed]="visit.status === 'Missed'">{{ visit.status }}</span>
+      </button>
+
+      @if (visit.id === selectedId()) {
+        <dl class="details">
+          <dt>Caregiver</dt>
+          <dd>{{ visit.caregiverName }}</dd>
+          <dt>Clock in</dt>
+          <dd>{{ visit.clockIn ? (visit.clockIn | date: 'h:mm a') : 'Not clocked in' }}</dd>
+          <dt>Clock out</dt>
+          <dd>{{ visit.clockOut ? (visit.clockOut | date: 'h:mm a') : 'Not clocked out' }}</dd>
+        </dl>
+      }
+    </li>
+  } @empty {
+    <li>No visits scheduled.</li>
+  }
+</ul>
