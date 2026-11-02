@@ -33,17 +33,3 @@
   color: #b00020;
   font-weight: 600;
 }
-
-.details {
-  margin: 0.25rem 0 0;
-  padding: 0.5rem 1rem;
-  color: #222;
-}
-
-.details dt {
-  font-weight: 600;
-}
-
-.details dd {
-  margin: 0 0 0.5rem;
-}

@@ -1,0 +1,9 @@
+<dl class="details">
+  <dt>Caregiver</dt>
+  <dd>{{ visit().caregiverName }}</dd>
+  <dt>Clock in</dt>
+  <dd>{{ visit().clockIn ? (visit().clockIn | date: 'h:mm a') : 'Not clocked in' }}</dd>
+  <dt>Clock out</dt>
+  <dd>{{ visit().clockOut ? (visit().clockOut | date: 'h:mm a') : 'Not clocked out' }}</dd>
+</dl>
+<button type="button" (click)="closed.emit()">Close</button>

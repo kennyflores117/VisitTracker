@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { Visit } from '../visit';
+import { VisitDetail } from '../visit-detail/visit-detail';
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, VisitDetail],
   selector: 'app-visit-list',
   styleUrl: './visit-list.css',
   templateUrl: './visit-list.html',
