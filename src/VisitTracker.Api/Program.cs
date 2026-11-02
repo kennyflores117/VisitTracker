@@ -18,6 +18,13 @@ builder.Services.AddControllers()
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Lets the Angular dev server (ng serve) call this API from the browser.
+builder.Services.AddCors(options =>
+    options.AddPolicy("AngularDev", policy =>
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AngularDev");
 
 app.UseAuthorization();
 
