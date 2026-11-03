@@ -1,10 +1,14 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { VisitStatus } from '../visit';
 import { VisitDetail } from '../visit-detail/visit-detail';
 import { VisitService } from '../visit.service';
 
+type StatusFilter = VisitStatus | 'All' | 'MissingClockIn';
+
 @Component({
-  imports: [AsyncPipe, DatePipe, VisitDetail],
+  imports: [DatePipe, VisitDetail],
   selector: 'app-visit-list',
   styleUrl: './visit-list.css',
   templateUrl: './visit-list.html',
@@ -12,10 +16,38 @@ import { VisitService } from '../visit.service';
 export class VisitList {
   private readonly visitService = inject(VisitService);
 
-  // An Observable: nothing is requested until the async pipe subscribes in the template.
-  protected readonly visits$ = this.visitService.getAll();
+  // undefined until the response arrives, which is how the template knows it is still loading.
+  protected readonly visits = toSignal(this.visitService.getAll());
 
+  protected readonly filters: { value: StatusFilter; label: string }[] = [
+    { value: 'All', label: 'All' },
+    { value: 'Scheduled', label: 'Scheduled' },
+    { value: 'InProgress', label: 'InProgress' },
+    { value: 'Completed', label: 'Completed' },
+    { value: 'Missed', label: 'Missed' },
+    { value: 'MissingClockIn', label: 'Missing clock-in' },
+  ];
+  protected readonly statusFilter = signal<StatusFilter>('All');
   protected readonly selectedId = signal<string | null>(null);
+
+  protected readonly filteredVisits = computed(() => {
+    const all = this.visits() ?? [];
+    const filter = this.statusFilter();
+
+    switch (filter) {
+      case 'All':
+        return all;
+      case 'MissingClockIn': {
+        const missingIds = new Set((this.missingClockIn() ?? []).map((v) => v.id));
+        return all.filter((v) => missingIds.has(v.id));
+      }
+      default:
+        return all.filter((v) => v.status === filter);
+    }
+  });
+
+  // The API owns the "missing clock-in" rule, so the UI asks it instead of recomputing it.
+  protected readonly missingClockIn = toSignal(this.visitService.getMissingClockIn());
 
   protected select(id: string): void {
     this.selectedId.set(this.selectedId() === id ? null : id);

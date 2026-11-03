@@ -1,8 +1,24 @@
-@if (visits$ | async; as visits) {
-  <h2>Visits ({{ visits.length }})</h2>
+@if (visits(); as all) {
+  <h2>Visits ({{ filteredVisits().length }} of {{ all.length }})</h2>
+  @if (missingClockIn(); as missing) {
+    <p>Missing clock-in: {{ missing.length }}</p>
+  }
+
+  <div class="filters" role="group" aria-label="Filter by status">
+    @for (filter of filters; track filter.value) {
+      <button
+        type="button"
+        [class.active]="filter.value === statusFilter()"
+        [attr.aria-pressed]="filter.value === statusFilter()"
+        (click)="statusFilter.set(filter.value)"
+      >
+        {{ filter.label }}
+      </button>
+    }
+  </div>
 
   <ul class="visits">
-    @for (visit of visits; track visit.id) {
+    @for (visit of filteredVisits(); track visit.id) {
       <li>
         <button
           type="button"
@@ -21,7 +37,7 @@
         }
       </li>
     } @empty {
-      <li>No visits scheduled.</li>
+      <li>No visits match this filter.</li>
     }
   </ul>
 } @else {

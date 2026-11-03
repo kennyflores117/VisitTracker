@@ -41,4 +41,15 @@ describe('VisitService', () => {
 
     expect(result).toEqual(visits);
   });
+
+  it('should GET the visits missing a clock-in from the API', () => {
+    let result: Visit[] | undefined;
+    service.getMissingClockIn().subscribe((v) => (result = v));
+
+    const req = httpMock.expectOne('http://localhost:5212/api/visits/missing-clock-in');
+    expect(req.request.method).toBe('GET');
+    req.flush([]);
+
+    expect(result).toEqual([]);
+  });
 });
