@@ -1,25 +1,29 @@
-<h2>Visits ({{ visits().length }})</h2>
+@if (visits$ | async; as visits) {
+  <h2>Visits ({{ visits.length }})</h2>
 
-<ul class="visits">
-  @for (visit of visits(); track visit.id) {
-    <li>
-      <button
-        type="button"
-        class="visit"
-        [class.selected]="visit.id === selectedId()"
-        [attr.aria-expanded]="visit.id === selectedId()"
-        (click)="select(visit.id)"
-      >
-        <strong>{{ visit.clientName }}</strong>
-        <span>{{ visit.scheduledStart | date: 'MMM d, h:mm a' }}</span>
-        <span class="status" [class.missed]="visit.status === 'Missed'">{{ visit.status }}</span>
-      </button>
+  <ul class="visits">
+    @for (visit of visits; track visit.id) {
+      <li>
+        <button
+          type="button"
+          class="visit"
+          [class.selected]="visit.id === selectedId()"
+          [attr.aria-expanded]="visit.id === selectedId()"
+          (click)="select(visit.id)"
+        >
+          <strong>{{ visit.clientName }}</strong>
+          <span>{{ visit.scheduledStart | date: 'MMM d, h:mm a' }}</span>
+          <span class="status" [class.missed]="visit.status === 'Missed'">{{ visit.status }}</span>
+        </button>
 
-      @if (visit.id === selectedId()) {
-        <app-visit-detail [visit]="visit" (closed)="selectedId.set(null)" />
-      }
-    </li>
-  } @empty {
-    <li>No visits scheduled.</li>
-  }
-</ul>
+        @if (visit.id === selectedId()) {
+          <app-visit-detail [visit]="visit" (closed)="selectedId.set(null)" />
+        }
+      </li>
+    } @empty {
+      <li>No visits scheduled.</li>
+    }
+  </ul>
+} @else {
+  <p>Loading visits…</p>
+}
