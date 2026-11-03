@@ -1,14 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { VisitStatus } from '../visit';
-import { VisitDetail } from '../visit-detail/visit-detail';
 import { VisitService } from '../visit.service';
 
 type StatusFilter = VisitStatus | 'All' | 'MissingClockIn';
 
 @Component({
-  imports: [DatePipe, VisitDetail],
+  imports: [DatePipe, RouterLink],
   selector: 'app-visit-list',
   styleUrl: './visit-list.css',
   templateUrl: './visit-list.html',
@@ -28,7 +28,6 @@ export class VisitList {
     { value: 'MissingClockIn', label: 'Missing clock-in' },
   ];
   protected readonly statusFilter = signal<StatusFilter>('All');
-  protected readonly selectedId = signal<string | null>(null);
 
   protected readonly filteredVisits = computed(() => {
     const all = this.visits() ?? [];
@@ -48,8 +47,4 @@ export class VisitList {
 
   // The API owns the "missing clock-in" rule, so the UI asks it instead of recomputing it.
   protected readonly missingClockIn = toSignal(this.visitService.getMissingClockIn());
-
-  protected select(id: string): void {
-    this.selectedId.set(this.selectedId() === id ? null : id);
-  }
 }

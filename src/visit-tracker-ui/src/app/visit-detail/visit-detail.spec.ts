@@ -31,16 +31,10 @@ describe('VisitDetail', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the caregiver and a not-clocked-in message', () => {
+  it('should show the client, caregiver and a not-clocked-in message', () => {
     const text = (fixture.nativeElement as HTMLElement).textContent;
+    expect(text).toContain('Jane Doe');
     expect(text).toContain('John Smith');
     expect(text).toContain('Not clocked in');
-  });
-
-  it('should emit closed when Close is clicked', () => {
-    let emitted = false;
-    component.closed.subscribe(() => (emitted = true));
-    (fixture.nativeElement.querySelector('button') as HTMLButtonElement).click();
-    expect(emitted).toBe(true);
   });
 });

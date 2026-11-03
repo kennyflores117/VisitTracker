@@ -1,9 +1,15 @@
-<dl class="details">
-  <dt>Caregiver</dt>
-  <dd>{{ visit().caregiverName }}</dd>
-  <dt>Clock in</dt>
-  <dd>{{ visit().clockIn ? (visit().clockIn | date: 'h:mm a') : 'Not clocked in' }}</dd>
-  <dt>Clock out</dt>
-  <dd>{{ visit().clockOut ? (visit().clockOut | date: 'h:mm a') : 'Not clocked out' }}</dd>
-</dl>
-<button type="button" (click)="closed.emit()">Close</button>
+<article>
+  <h2>{{ visit().clientName }}</h2>
+  <p class="status" [class.missed]="visit().status === 'Missed'">{{ visit().status }}</p>
+
+  <dl class="details">
+    <dt>Scheduled</dt>
+    <dd>{{ visit().scheduledStart | date: 'MMM d, y, h:mm a' }}</dd>
+    <dt>Caregiver</dt>
+    <dd>{{ visit().caregiverName }}</dd>
+    <dt>Clock in</dt>
+    <dd>{{ visit().clockIn ? (visit().clockIn | date: 'MMM d, h:mm a') : 'Not clocked in' }}</dd>
+    <dt>Clock out</dt>
+    <dd>{{ visit().clockOut ? (visit().clockOut | date: 'MMM d, h:mm a') : 'Not clocked out' }}</dd>
+  </dl>
+</article>

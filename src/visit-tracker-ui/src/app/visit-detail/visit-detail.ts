@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Visit } from '../visit';
 
 @Component({
@@ -9,9 +9,6 @@ import { Visit } from '../visit';
   templateUrl: './visit-detail.html',
 })
 export class VisitDetail {
-  // Data flows in from the parent...
+  // Purely presentational: the parent decides which visit to show.
   readonly visit = input.required<Visit>();
-
-  // ...and events flow back out.
-  readonly closed = output<void>();
 }

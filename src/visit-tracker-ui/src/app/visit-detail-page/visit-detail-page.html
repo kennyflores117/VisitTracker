@@ -1,0 +1,9 @@
+<a routerLink="/visits">← Back to visits</a>
+
+@if (visit(); as v) {
+  <app-visit-detail [visit]="v" />
+} @else if (visit() === null) {
+  <p>Visit not found.</p>
+} @else {
+  <p>Loading visit…</p>
+}

@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { Visit } from '../visit';
 import { VisitList } from './visit-list';
 
@@ -34,7 +35,7 @@ describe('VisitList', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [VisitList],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VisitList);
@@ -63,6 +64,15 @@ describe('VisitList', () => {
     expect(page().textContent).toContain('Jane Doe');
     expect(page().textContent).toContain('Alice Brown');
     expect(page().textContent).toContain('Missing clock-in: 1');
+  });
+
+  it('should link each visit to its detail page', async () => {
+    await loadVisits();
+
+    const hrefs = Array.from(page().querySelectorAll<HTMLAnchorElement>('a.visit')).map((a) =>
+      a.getAttribute('href'),
+    );
+    expect(hrefs).toEqual(['/visits/1', '/visits/2']);
   });
 
   it('should only show visits matching the selected status filter', async () => {

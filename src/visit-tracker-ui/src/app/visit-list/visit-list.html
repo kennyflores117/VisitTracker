@@ -20,21 +20,11 @@
   <ul class="visits">
     @for (visit of filteredVisits(); track visit.id) {
       <li>
-        <button
-          type="button"
-          class="visit"
-          [class.selected]="visit.id === selectedId()"
-          [attr.aria-expanded]="visit.id === selectedId()"
-          (click)="select(visit.id)"
-        >
+        <a class="visit" [routerLink]="['/visits', visit.id]">
           <strong>{{ visit.clientName }}</strong>
           <span>{{ visit.scheduledStart | date: 'MMM d, h:mm a' }}</span>
           <span class="status" [class.missed]="visit.status === 'Missed'">{{ visit.status }}</span>
-        </button>
-
-        @if (visit.id === selectedId()) {
-          <app-visit-detail [visit]="visit" (closed)="selectedId.set(null)" />
-        }
+        </a>
       </li>
     } @empty {
       <li>No visits match this filter.</li>

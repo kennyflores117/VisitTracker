@@ -12,6 +12,10 @@ export class VisitService {
     return this.http.get<Visit[]>(this.baseUrl);
   }
 
+  getById(id: string): Observable<Visit> {
+    return this.http.get<Visit>(`${this.baseUrl}/${id}`);
+  }
+
   getMissingClockIn(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.baseUrl}/missing-clock-in`);
   }

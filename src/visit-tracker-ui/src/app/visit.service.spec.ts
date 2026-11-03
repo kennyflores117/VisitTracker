@@ -42,6 +42,18 @@ describe('VisitService', () => {
     expect(result).toEqual(visits);
   });
 
+  it('should GET one visit by id from the API', () => {
+    let result: Visit | undefined;
+    service.getById('abc').subscribe((v) => (result = v));
+
+    const req = httpMock.expectOne('http://localhost:5212/api/visits/abc');
+    expect(req.request.method).toBe('GET');
+    const visit = { id: 'abc' } as Visit;
+    req.flush(visit);
+
+    expect(result).toEqual(visit);
+  });
+
   it('should GET the visits missing a clock-in from the API', () => {
     let result: Visit[] | undefined;
     service.getMissingClockIn().subscribe((v) => (result = v));
