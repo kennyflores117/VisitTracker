@@ -6,6 +6,11 @@ export const routes: Routes = [
     path: 'visits',
     loadComponent: () => import('./visit-list/visit-list').then((m) => m.VisitList),
   },
+  // Must come before 'visits/:id', or 'new' would be matched as an id.
+  {
+    path: 'visits/new',
+    loadComponent: () => import('./visit-form/visit-form').then((m) => m.VisitForm),
+  },
   {
     path: 'visits/:id',
     loadComponent: () =>

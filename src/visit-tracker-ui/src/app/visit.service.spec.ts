@@ -54,6 +54,24 @@ describe('VisitService', () => {
     expect(result).toEqual(visit);
   });
 
+  it('should POST a new visit to the API', () => {
+    const request = {
+      clientName: 'Jane Doe',
+      caregiverName: 'John Smith',
+      scheduledStart: '2026-11-05T14:00:00.000Z',
+    };
+    let result: Visit | undefined;
+    service.create(request).subscribe((v) => (result = v));
+
+    const req = httpMock.expectOne('http://localhost:5212/api/visits');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(request);
+    const created = { id: 'abc' } as Visit;
+    req.flush(created);
+
+    expect(result).toEqual(created);
+  });
+
   it('should GET the visits missing a clock-in from the API', () => {
     let result: Visit[] | undefined;
     service.getMissingClockIn().subscribe((v) => (result = v));

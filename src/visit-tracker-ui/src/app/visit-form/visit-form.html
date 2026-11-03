@@ -1,0 +1,35 @@
+<a routerLink="/visits">← Back to visits</a>
+
+<h2>Add visit</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="field">
+    <label for="clientName">Client name</label>
+    <input id="clientName" type="text" formControlName="clientName" />
+    @if (showError('clientName')) {
+      <p class="error" role="alert">Enter the client's name (up to 100 characters).</p>
+    }
+  </div>
+
+  <div class="field">
+    <label for="caregiverName">Caregiver name</label>
+    <input id="caregiverName" type="text" formControlName="caregiverName" />
+    @if (showError('caregiverName')) {
+      <p class="error" role="alert">Enter the caregiver's name (up to 100 characters).</p>
+    }
+  </div>
+
+  <div class="field">
+    <label for="scheduledStart">Scheduled start</label>
+    <input id="scheduledStart" type="datetime-local" formControlName="scheduledStart" />
+    @if (showError('scheduledStart')) {
+      <p class="error" role="alert">Choose a date and time.</p>
+    }
+  </div>
+
+  @if (errorMessage(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save visit' }}</button>
+</form>

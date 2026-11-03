@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Visit } from './visit';
+import { CreateVisitRequest, Visit } from './visit';
 
 @Service()
 export class VisitService {
@@ -14,6 +14,10 @@ export class VisitService {
 
   getById(id: string): Observable<Visit> {
     return this.http.get<Visit>(`${this.baseUrl}/${id}`);
+  }
+
+  create(request: CreateVisitRequest): Observable<Visit> {
+    return this.http.post<Visit>(this.baseUrl, request);
   }
 
   getMissingClockIn(): Observable<Visit[]> {

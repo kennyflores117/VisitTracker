@@ -1,0 +1,30 @@
+form {
+  max-width: 24rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input {
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+}
+
+.error {
+  margin: 0;
+  color: #b00020;
+}
+
+button[type='submit'] {
+  padding: 0.4rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}

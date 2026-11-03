@@ -1,4 +1,5 @@
 @if (visits(); as all) {
+  <a routerLink="/visits/new">+ Add visit</a>
   <h2>Visits ({{ filteredVisits().length }} of {{ all.length }})</h2>
   @if (missingClockIn(); as missing) {
     <p>Missing clock-in: {{ missing.length }}</p>

@@ -10,3 +10,10 @@ export interface Visit {
   clockOut: string | null;
   status: VisitStatus;
 }
+
+// Mirrors CreateVisitRequest in the API; the server sets everything else.
+export interface CreateVisitRequest {
+  clientName: string;
+  caregiverName: string;
+  scheduledStart: string;
+}
