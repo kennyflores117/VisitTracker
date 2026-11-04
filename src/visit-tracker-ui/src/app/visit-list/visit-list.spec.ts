@@ -57,6 +57,19 @@ describe('VisitList', () => {
     expect(page().textContent).toContain('Loading visits');
   });
 
+  it('should show an error message instead of loading forever when the API fails', async () => {
+    httpMock
+      .expectOne('http://localhost:5212/api/visits')
+      .flush(null, { status: 500, statusText: 'Server Error' });
+    httpMock
+      .expectOne('http://localhost:5212/api/visits/missing-clock-in')
+      .flush(null, { status: 500, statusText: 'Server Error' });
+    await fixture.whenStable();
+
+    expect(page().textContent).toContain('Could not load visits');
+    expect(page().textContent).not.toContain('Loading visits');
+  });
+
   it('should render the visits returned by the API with the missing clock-in count', async () => {
     await loadVisits();
 

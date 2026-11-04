@@ -31,6 +31,8 @@
       <li>No visits match this filter.</li>
     }
   </ul>
+} @else if (loadFailed()) {
+  <p role="alert">Could not load visits. Please try again later.</p>
 } @else {
   <p>Loading visits…</p>
 }
